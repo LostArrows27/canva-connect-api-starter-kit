@@ -5,6 +5,7 @@ import path from "path";
 import dummyRoutes from "./routes/dummy";
 import userRoutes from "./routes/user";
 import authRoutes from "./routes/auth";
+import videoRoutes from "./routes/video";
 import cookieParser from "cookie-parser";
 import { errorHandler } from "../../common/backend/middleware/errors";
 import { logger } from "../../common/backend/middleware/logger";
@@ -28,7 +29,7 @@ declare global {
 
 export const db = new JSONFileDatabase<DatabaseSchema>(
   { users: [] },
-  __dirname,
+  __dirname
 );
 
 if (!port) {
@@ -40,7 +41,7 @@ app.use(
   cors({
     origin: process.env.FRONTEND_URL,
     credentials: true,
-  }),
+  })
 );
 app.use(bodyParser.json());
 // By supplying a secret to the cookie parser, we are enabling signed cookies
@@ -55,10 +56,11 @@ app.use(logger);
 app.use(authRoutes);
 app.use(dummyRoutes);
 app.use(userRoutes);
+app.use(videoRoutes);
 
 app.set(
   "views",
-  path.join(__dirname, "..", "..", "common", "backend", "views"),
+  path.join(__dirname, "..", "..", "common", "backend", "views")
 );
 app.set("view engine", "pug");
 
